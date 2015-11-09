@@ -45,11 +45,14 @@ text-overflow: ellipsis;
             </div>
             <div class="row">
                 <table class="table table-striped">
-                    {% for dish in dish_list %}
+                    {% for order in order_list %}
                     <tr>
                         <td>
-                            {{ dish }}
+                            {{ order.dish_name }}
+                        </td>
                         <td>
+                            {{ order.qty}}
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>

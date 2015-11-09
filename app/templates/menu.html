@@ -64,7 +64,7 @@ text-overflow: ellipsis;
     </div>
     <form action={{ url_for('order') }} method="post">
     <div class="row-fluid">
-        <div class="span1">
+        <div class="span2">
             <ul class="nav nav-list affix">
                 <li class="nav-header">菜品类别</li>
                 {% for category in category_list %}
@@ -72,21 +72,19 @@ text-overflow: ellipsis;
                 {% endfor %}
             </ul>
         </div>
-        <div class="span11">
+        <div class="span10">
                     {% for dish in dish_list %}
                     {% if loop.index0 % 3 == 0 %}
                     <div class="row-fluid" id="result_row">
                     {% endif %}
-                    <div class="span4">
-                        <a href=#>
-                            <img src={{ dish.image }}></img>
-                        </a>
-                        <h4>
+                    <div class="span2">
                         <label class="checkbox">
-                              <input type="checkbox" name={{ dish.name }} id="dish_{{ loop.index0 }}">
+                            <img src={{ dish.image }}></img>
+                        <h3>
+                              <input type="checkbox" name={{ dish.id }} id="dish_{{ loop.index0 }}">
                               {{ dish.name }}
+                        </h3>
                         </label>
-                        </h4>
                         <p>
                         价格: {{ dish.price }}
                         </p>

@@ -38,6 +38,12 @@ class Menu(object):
     def get_dish_list(self):
         return Dish.query.all()
 
+def get_order_info(date="", mobile=""):
+    if not date and not mobile:
+        print "aaaaaaaaaa"
+        return Order.query.all()
+    return Order.query.filter_by(date=date, mobile=mobile).all()
+
 @app.route("/")
 def index():
     return render_template('menu.html', dish_list=menu.get_dish_list())
@@ -59,12 +65,19 @@ def list():
 @app.route("/order", methods=["get", "post"])
 def order():
     date = request.form.get('date', "")
+    dt = datetime.datetime.strptime(date, "%Y/%m/%d/%a/")
+    week = dt.strftime('%W')
     mobile = request.form.get('mobile', "")
-    selected_dish_list = []
     for dish in menu.get_dish_list():
-        if request.form.get(dish.name.decode("utf-8"), ""):
-            selected_dish_list.append(dish.name)
-    return render_template('order.html', dish_list=selected_dish_list, date=date, mobile=mobile)
+        if request.form.get(str(dish.id), ""):
+            order = Order(dt, mobile, 1, dish.id, dish.name, dish.price)
+            db.session.add(order)
+    db.session.commit()
+    return render_template('order.html', order_list=get_order_info(dt, mobile), date=date, mobile=mobile)
+
+@app.route("/operate", methods=["get", "post"])
+def operate():
+    return render_template('operate.html', order_list=get_order_info())
 
 if __name__ == '__main__':
     db.drop_all()

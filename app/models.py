@@ -14,28 +14,19 @@ class Order(db.Model):
 
     __tablename__ = "Order"
 
-    id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, default=datetime.datetime.now)
-    order_row = relationship("OrderRow", backref="Order")
+    mobile = db.Column(db.String, primary_key=True)
+    qty = db.Column(db.Integer, primary_key=True)
+    dish_id = db.Column(db.Integer, primary_key=True)
+    dish_name = db.Column(db.String, primary_key=True)
 
-    def __init__(self):
-        pass
-
-    def __repr__(self):
-        pass
-
-class OrderRow(db.Model):
-
-    __tablename__ = "OrderRow"
-
-    id = db.Column(db.Integer, primary_key=True)
-    qty = db.Column(db.Integer, nullable=False)
-    order_id = db.Column(db.Integer, ForeignKey('Order.id'))
-    dish_id = db.Column(db.Integer, ForeignKey('Dish.id'))
-
-    def __init__(self, dish_name, qty):
-        self.dish_name = dish_name
+    def __init__(self, date, mobile, qty, dish_id, dish_name, price):
+        self.date = date
+        self.mobile = mobile
         self.qty = qty
+        self.dish_id = dish_id
+        self.dish_name = dish_name
+        self.price = price
 
     def __repr__(self):
         pass

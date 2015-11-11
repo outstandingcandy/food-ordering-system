@@ -40,9 +40,32 @@ class Menu(object):
 
 def get_order_info(date="", mobile=""):
     if not date and not mobile:
-        print "aaaaaaaaaa"
         return Order.query.all()
     return Order.query.filter_by(date=date, mobile=mobile).all()
+
+def reconstruct_dish_list(dish_list):
+    dish_dict = {}
+    for dish in dish_list:
+        if dish.day not in dish_dict:
+            dish_dict[dish.day] = {}
+        if dish.week in dish_dict[dish.day]:
+            dish_dict[dish.day][dish.week].append(dish)
+        else:
+            dish_dict[dish.day][dish.week] = [dish]
+    print dish_dict
+    new_dish_list = []
+    for print_day,day in Dish.day_list:
+        if day in dish_dict:
+            day_dish_list = []
+            for print_week,week in Dish.week_list:
+                if week in dish_dict[day]:
+                    for dish in dish_dict[day][week]:
+                        dish.print_day = print_day
+                        dish.print_week = print_week
+                    day_dish_list.append(dish_dict[day][week])
+            new_dish_list.append(day_dish_list)
+    print new_dish_list
+    return new_dish_list
 
 @app.route("/")
 def index():
@@ -52,15 +75,15 @@ def index():
 def list():
     day = request.form.get('day', "ALL")
     date = request.form.get('date', "")
-    category = request.form.get('category', "ALL")
+    category = request.args.get('category', "ALL")
     if day == "ALL" and date:
         day = date.split("/")[-1].upper()
-    available_dish_list = []
+    available_dish_query = Dish.query
     if day != "ALL":
-        available_dish_list = Dish.query.filter_by(day = day).all()
-    else:
-        available_dish_list = menu.get_dish_list()
-    return render_template('menu.html', dish_list=available_dish_list, day=day, date=date, category_list=Dish.category_dict.keys())
+        available_dish_query = available_dish_query.filter_by(day = day)
+    if category != "ALL":
+        available_dish_query = available_dish_query.filter_by(category = int(category))
+    return render_template('menu.html', dish_list=reconstruct_dish_list(available_dish_query.all()), day=day, date=date, category_list=Dish.category_dict.items())
 
 @app.route("/order", methods=["get", "post"])
 def order():

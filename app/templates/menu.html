@@ -23,6 +23,7 @@ function updateCart()
         }
     }
 }
+
 </script>
 
 {% endblock %}
@@ -48,14 +49,11 @@ text-overflow: ellipsis;
                 <div class="container">
                     <ul class="nav">
                         <li>
-                            <form action={{ url_for('list') }} method="post" class="navbar-form">
                                 <div class="control-group">
                                     <div class="controls">
-                                        <input data-provide="datepicker" data-date-format="yyyy/mm/dd/D" name="date" placeholder="请选择订餐日期" id="inputDate" value={{ date }}>
-                                        <button type="submit" class="btn">Submit</button>
+                                        <input id="datepicker" data-provide="datepicker" data-date-format="yyyy/mm/dd/D" data-date-autoclose="true" name="date" placeholder="请选择订餐日期" id="inputDate" value={{ date }} >
                                     </div>
                                 </div>
-                            </form>
                         </li>
                     </ul>
                 </div>
@@ -64,39 +62,33 @@ text-overflow: ellipsis;
     </div>
     <form action={{ url_for('order') }} method="post">
     <div class="row-fluid">
-        <div class="span2">
-            <ul class="nav nav-list affix">
-                <li class="nav-header">菜品类别</li>
-                {% for category in category_list %}
-                <li><a href="{{ url_for('list', category=category) }}">{{ category }}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="span10">
-                    {% for dish in dish_list %}
-                    {% if loop.index0 % 3 == 0 %}
-                    <div class="row-fluid" id="result_row">
-                    {% endif %}
-                    <div class="span2">
-                        <label class="checkbox">
-                            <img src={{ dish.image }}></img>
-                        <h3>
-                              <input type="checkbox" name={{ dish.id }} id="dish_{{ loop.index0 }}">
-                              {{ dish.name }}
-                        </h3>
-                        </label>
-                        <p>
-                        价格: {{ dish.price }}
-                        </p>
-                        <p>
-                        供应时间: {{ dish.day }}
-                        </p>
-                    </div>
-                    {% if loop.index0 % 3 == 2 or loop.revindex == 0 %}
-                    </div>
-                    {% endif %}
+        <div class="span11">
+                {% for day_dish_list in dish_list %}
+                <div class="row-fluid" id="result_row">
+                    {{ day_dish_list[0][0].print_day }}
+                </div>
+                <div class="row-fluid" id="result_row">
+                    {% for week_dish_list in day_dish_list %}
+                        {% for dish in week_dish_list %}
+                        <div class="span3">
+                            <label class="checkbox">
+                                <img src={{ dish.image }}></img>
+                            <h4>
+                                  <input type="checkbox" name={{ dish.id }} id="dish_{{ loop.index0 }}">
+                                  {{ dish.name }}
+                            </h4>
+                            </label>
+                            <p>
+                            价格: {{ dish.price }}
+                            </p>
+                            <p>
+                            {{ dish.print_week }}
+                            </p>
+                        </div>
+                        {% endfor %}
                     {% endfor %}
                 </div>
+                {% endfor %}
                 <div class="control-group">
                     <div class="controls">
                     <input type="hidden" name="date" value={{date}}/>
@@ -138,5 +130,36 @@ text-overflow: ellipsis;
     </form>
 
 </div>
+<script type="text/javascript">
+var xmlhttp;
+function display_selected_dishes(url, date)
+{
+    xmlhttp=null;
+    if (window.XMLHttpRequest)
+    {// all modern browsers
+        xmlhttp=new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject)
+    {// for IE5, IE6
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    if (xmlhttp!=null)
+    {
+        xmlhttp.onreadystatechange=state_Change;
+        xmlhttp.open("GET",url,true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send("date=" + date);
+    }
+    else
+    {
+        alert("Your browser does not support XMLHTTP.");
+    }
+}
+$('#datepicker').datepicker().on('changeDate', function(e) {
+    // `e` here contains the extra attributes
+    alert('aaaa');
+    display_selected_dishes({{ url_for('order') }}, $('.datepicker').datepicker('getFormattedDate'));
+});
+</script>
 </body>
 </html>

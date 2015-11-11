@@ -44,10 +44,14 @@ class Dish(db.Model):
     day = db.Column(db.String, nullable=False)
     image = db.Column(db.String, nullable=False)
     gift = db.Column(db.String, nullable=False)
+    print_day = ""
+    print_week = ""
 
     image_path_prefix = "http://7xkcn7.com1.z0.glb.clouddn.com/xiaozao_"
     day_dict = {"周一":"MON", "周二":"TUE", "周三":"WED",  "周四":"THU", "周五":"FRI"}
+    day_list = [("周一", "MON"), ("周二","TUE"), ("周三","WED"),  ("周四","THU"), ("周五","FRI")]
     week_dict = {"单周":1, "双周":2}
+    week_list = [("单周",1), ("双周",2)]
     category_dict = {"家常菜":1, "特色菜":2}
 
     def __init__(self, line):

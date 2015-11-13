@@ -78,9 +78,12 @@ def list():
     category = request.args.get('category', "ALL")
     if day == "ALL" and date:
         day = date.split("/")[-1].upper()
+        dt = datetime.datetime.strptime(date, "%Y/%m/%d/%a")
+        week = int(dt.strftime('%W')) % 2 + 1
+        print week
     available_dish_query = Dish.query
     if day != "ALL":
-        available_dish_query = available_dish_query.filter_by(day = day)
+        available_dish_query = available_dish_query.filter_by(day = day, week = week)
     if category != "ALL":
         available_dish_query = available_dish_query.filter_by(category = int(category))
     return render_template('menu.html', dish_list=reconstruct_dish_list(available_dish_query.all()), day=day, date=date, category_list=Dish.category_dict.items())
@@ -89,7 +92,6 @@ def list():
 def order():
     date = request.form.get('date', "")
     dt = datetime.datetime.strptime(date, "%Y/%m/%d/%a/")
-    week = dt.strftime('%W')
     mobile = request.form.get('mobile', "")
     for dish in menu.get_dish_list():
         if request.form.get(str(dish.id), ""):

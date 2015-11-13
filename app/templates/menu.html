@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
 {% block head %}
-<title>SuperApp{% block title %}{% endblock %}</title>
+<title>{% block title %}小灶订餐系统{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="keywords" content="">
@@ -13,7 +13,28 @@
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/bootstrap-datepicker.min.js"></script>
 <script src="/static/js/bootstrap-datepicker.zh-CN.min.js"></script>
+{% endblock %}
 <script type="text/javascript">
+window.onload = function()
+{
+	$('#datepicker').datepicker().on('changeDate', function(ev){
+		$('#select-date').submit()
+	});
+
+	//设置日期从今天开始
+	var myDate = new Date();
+	
+	var mytime=myDate.toLocaleTimeString();
+	str = myDate.toLocaleString();
+
+	str = str.split(" ")
+	
+	str = str[0].split("/")
+	str = str[0] + '-' + str[1] + '-' + (parseInt(str[2]) + 1)
+	
+	$('#datepicker').datepicker('setStartDate', str);
+};
+
 function updateCart()
 {
     for (i=0; i<{{ dish_list | length}}; ++i) {
@@ -23,12 +44,9 @@ function updateCart()
         }
     }
 }
-
 </script>
-
-{% endblock %}
 </head>
-<body style="min-height: 2000px; padding-top: 70px; padding-bottom: 70px">
+<body style="min-height: 2000px; padding-top: 100px; padding-bottom: 70px">
 <style type="text/css">
 b {
 font-weight: normal;
@@ -40,29 +58,51 @@ white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
 }
+.navbar-inner {
+height: 90px;
+}
+.brand {
+margin-top: 0px;
+margin-left: 0px;
+padding-top: 0px;
+padding-bottom: 0px;
+}
+.brand-img {
+margin-top: 0px;
+padding-top: 0px;
+border: 0px;
+}
+#datepicker {
+height: 50px;
+margin-top: 20px;
+}
+.remind {
+margin-top: 40px;
+}
 </style>
 <div class="container-fluid">
     <div class="navbar navbar-fixed-top"> 
         <div class="navbar-inner"> 
-            <div class="container-fluid">
-                <a class="brand" href="#">XiaoZao</a>
+                <a class="brand" href={{ url_for('list') }}>
+		<img src="{{url_for('static', filename='img/logo_3.png')}}" class="brand-img"></img>
+		</a>
                 <div class="container">
                     <ul class="nav">
+                        <li class="remind">
+请选择订餐日期,暂只支持午餐
+                        </li>
                         <li>
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <input id="datepicker" data-provide="datepicker" data-date-format="yyyy/mm/dd/D" data-date-autoclose="true" name="date" placeholder="请选择订餐日期" id="inputDate" value={{ date }} >
-                                    </div>
-                                </div>
+    			<form class="navbar-form" id = "select-date" action={{ url_for('list') }} method="post">
+                                        <input id="datepicker" data-provide="datepicker" data-date-format="yyyy/mm/dd/D" data-date-autoclose="true" name="date" placeholder="请选择订餐日期，暂只提供午餐" id="inputDate" value={{ date }} >
+			</form>
                         </li>
                     </ul>
                 </div>
-            </div>
         </div>
     </div>
-    <form action={{ url_for('order') }} method="post">
+    <form id = "order" action={{ url_for('order') }} method="post">
     <div class="row-fluid">
-        <div class="span11">
+        <div class="span12">
                 {% for day_dish_list in dish_list %}
                 <div class="row-fluid" id="result_row">
                     {{ day_dish_list[0][0].print_day }}
@@ -71,19 +111,19 @@ text-overflow: ellipsis;
                     {% for week_dish_list in day_dish_list %}
                         {% for dish in week_dish_list %}
                         <div class="span3">
-                            <label class="checkbox">
+                            <label class="checkbox" style="padding-left:0">
                                 <img src={{ dish.image }}></img>
-                            <h4>
+			    <h4>
                                   <input type="checkbox" name={{ dish.id }} id="dish_{{ loop.index0 }}">
                                   {{ dish.name }}
                             </h4>
-                            </label>
                             <p>
                             价格: {{ dish.price }}
                             </p>
                             <p>
                             {{ dish.print_week }}
                             </p>
+                            </label>
                         </div>
                         {% endfor %}
                     {% endfor %}
@@ -91,6 +131,7 @@ text-overflow: ellipsis;
                 {% endfor %}
                 <div class="control-group">
                     <div class="controls">
+	<br>请填写您的手机号,方便为您送餐
                     <input type="hidden" name="date" value={{date}}/>
                     <input type="text" name="mobile" placeholder="手机号"/>
                     <button type="submit" class="btn">Order</button>
@@ -155,11 +196,7 @@ function display_selected_dishes(url, date)
         alert("Your browser does not support XMLHTTP.");
     }
 }
-$('#datepicker').datepicker().on('changeDate', function(e) {
-    // `e` here contains the extra attributes
-    alert('aaaa');
-    display_selected_dishes({{ url_for('order') }}, $('.datepicker').datepicker('getFormattedDate'));
-});
+
 </script>
 </body>
 </html>

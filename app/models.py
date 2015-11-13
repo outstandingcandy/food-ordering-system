@@ -14,11 +14,12 @@ class Order(db.Model):
 
     __tablename__ = "Order"
 
+    id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, default=datetime.datetime.now)
-    mobile = db.Column(db.String, primary_key=True)
-    qty = db.Column(db.Integer, primary_key=True)
-    dish_id = db.Column(db.Integer, primary_key=True)
-    dish_name = db.Column(db.String, primary_key=True)
+    mobile = db.Column(db.String, primary_key=False)
+    qty = db.Column(db.Integer, primary_key=False)
+    dish_id = db.Column(db.Integer, primary_key=False)
+    dish_name = db.Column(db.String, primary_key=False)
 
     def __init__(self, date, mobile, qty, dish_id, dish_name, price):
         self.date = date

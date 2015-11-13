@@ -1,0 +1,48 @@
+nohup: ignoring input
+/usr/local/lib/python2.7/dist-packages/flask_sqlalchemy/__init__.py:800: UserWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.
+  warnings.warn('SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.')
+ * Restarting with stat
+/usr/local/lib/python2.7/dist-packages/flask_sqlalchemy/__init__.py:800: UserWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.
+  warnings.warn('SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True to suppress this warning.')
+ * Debugger is active!
+ * Debugger pin code: 719-917-850
+123.118.2.82 - - [12/Nov/2015 16:23:29] "POST /order HTTP/1.1" 200 -
+123.118.2.82 - - [12/Nov/2015 16:23:33] "GET /operator HTTP/1.1" 404 -
+123.118.2.82 - - [12/Nov/2015 16:23:36] "GET /operater HTTP/1.1" 404 -
+123.118.2.82 - - [12/Nov/2015 16:23:39] "GET /operater HTTP/1.1" 404 -
+123.118.2.82 - - [12/Nov/2015 16:23:41] "GET /operate HTTP/1.1" 200 -
+123.118.2.82 - - [12/Nov/2015 16:23:47] "GET /list HTTP/1.1" 200 -
+123.118.2.82 - - [12/Nov/2015 16:25:17] "POST /list HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:13:05] "GET /favicon.ico HTTP/1.1" 404 -
+220.181.171.88 - - [13/Nov/2015 01:13:09] "GET /operate HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:13:09] "GET /static/css/bootstrap.min.css HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:13:10] "GET /static/js/bootstrap-datepicker.min.js HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:13:10] "GET /static/js/bootstrap-datepicker.zh-CN.min.js HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:13:10] "GET /static/css/bootstrap-datepicker.min.css HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:13:10] "GET /static/js/bootstrap.min.js HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:13:11] "GET /favicon.ico HTTP/1.1" 404 -
+220.181.171.88 - - [13/Nov/2015 01:13:45] "GET /operate HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:14:03] "GET /list HTTP/1.1" 200 -
+{u'THU': {1: [<models.Dish object at 0x7f2a435a1f10>, <models.Dish object at 0x7f2a4330f110>], 2: [<models.Dish object at 0x7f2a4334ee90>, <models.Dish object at 0x7f2a4334eed0>]}, u'WED': {1: [<models.Dish object at 0x7f2a47628710>, <models.Dish object at 0x7f2a435a1090>], 2: [<models.Dish object at 0x7f2a435a1250>, <models.Dish object at 0x7f2a435a10d0>]}, u'FRI': {1: [<models.Dish object at 0x7f2a43339690>, <models.Dish object at 0x7f2a433393d0>], 2: [<models.Dish object at 0x7f2a43339910>, <models.Dish object at 0x7f2a433399d0>]}, u'MON': {1: [<models.Dish object at 0x7f2a4331fdd0>, <models.Dish object at 0x7f2a4331fc10>], 2: [<models.Dish object at 0x7f2a4331fbd0>, <models.Dish object at 0x7f2a4331f810>]}, u'TUE': {1: [<models.Dish object at 0x7f2a4331fa10>, <models.Dish object at 0x7f2a4331fb10>], 2: [<models.Dish object at 0x7f2a4331f990>, <models.Dish object at 0x7f2a44048210>]}}
+[[[<models.Dish object at 0x7f2a4331fdd0>, <models.Dish object at 0x7f2a4331fc10>], [<models.Dish object at 0x7f2a4331fbd0>, <models.Dish object at 0x7f2a4331f810>]], [[<models.Dish object at 0x7f2a4331fa10>, <models.Dish object at 0x7f2a4331fb10>], [<models.Dish object at 0x7f2a4331f990>, <models.Dish object at 0x7f2a44048210>]], [[<models.Dish object at 0x7f2a47628710>, <models.Dish object at 0x7f2a435a1090>], [<models.Dish object at 0x7f2a435a1250>, <models.Dish object at 0x7f2a435a10d0>]], [[<models.Dish object at 0x7f2a435a1f10>, <models.Dish object at 0x7f2a4330f110>], [<models.Dish object at 0x7f2a4334ee90>, <models.Dish object at 0x7f2a4334eed0>]], [[<models.Dish object at 0x7f2a43339690>, <models.Dish object at 0x7f2a433393d0>], [<models.Dish object at 0x7f2a43339910>, <models.Dish object at 0x7f2a433399d0>]]]
+1
+{u'TUE': {1: [<models.Dish object at 0x7f2a433395d0>, <models.Dish object at 0x7f2a43339fd0>]}}
+[[[<models.Dish object at 0x7f2a433395d0>, <models.Dish object at 0x7f2a43339fd0>]]]
+{u'THU': {1: [<models.Dish object at 0x7f2a432eb910>, <models.Dish object at 0x7f2a432eb9d0>], 2: [<models.Dish object at 0x7f2a432eba90>, <models.Dish object at 0x7f2a432ebb50>]}, u'WED': {1: [<models.Dish object at 0x7f2a432eb690>, <models.Dish object at 0x7f2a432eb710>], 2: [<models.Dish object at 0x7f2a432eb790>, <models.Dish object at 0x7f2a432eb850>]}, u'FRI': {1: [<models.Dish object at 0x7f2a432ebc10>, <models.Dish object at 0x7f2a432dea90>], 2: [<models.Dish object at 0x7f2a432dec90>, <models.Dish object at 0x7f2a432de990>]}, u'MON': {1: [<models.Dish object at 0x7f2a432eb290>, <models.Dish object at 0x7f2a432eb310>], 2: [<models.Dish object at 0x7f2a432eb390>, <models.Dish object at 0x7f2a432eb410>]}, u'TUE': {1: [<models.Dish object at 0x7f2a432eb490>, <models.Dish object at 0x7f2a432eb510>], 2: [<models.Dish object at 0x7f2a432eb590>, <models.Dish object at 0x7f2a432eb610>]}}
+[[[<models.Dish object at 0x7f2a432eb290>, <models.Dish object at 0x7f2a432eb310>], [<models.Dish object at 0x7f2a432eb390>, <models.Dish object at 0x7f2a432eb410>]], [[<models.Dish object at 0x7f2a432eb490>, <models.Dish object at 0x7f2a432eb510>], [<models.Dish object at 0x7f2a432eb590>, <models.Dish object at 0x7f2a432eb610>]], [[<models.Dish object at 0x7f2a432eb690>, <models.Dish object at 0x7f2a432eb710>], [<models.Dish object at 0x7f2a432eb790>, <models.Dish object at 0x7f2a432eb850>]], [[<models.Dish object at 0x7f2a432eb910>, <models.Dish object at 0x7f2a432eb9d0>], [<models.Dish object at 0x7f2a432eba90>, <models.Dish object at 0x7f2a432ebb50>]], [[<models.Dish object at 0x7f2a432ebc10>, <models.Dish object at 0x7f2a432dea90>], [<models.Dish object at 0x7f2a432dec90>, <models.Dish object at 0x7f2a432de990>]]]
+{u'THU': {1: [<models.Dish object at 0x7f2a43339190>, <models.Dish object at 0x7f2a43339d90>], 2: [<models.Dish object at 0x7f2a43339350>, <models.Dish object at 0x7f2a432eb2d0>]}, u'WED': {1: [<models.Dish object at 0x7f2a4330f110>, <models.Dish object at 0x7f2a43339090>], 2: [<models.Dish object at 0x7f2a43339c10>, <models.Dish object at 0x7f2a43339850>]}, u'FRI': {1: [<models.Dish object at 0x7f2a432eb350>, <models.Dish object at 0x7f2a432eb3220.181.171.88 - - [13/Nov/2015 01:14:03] "GET /list HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:14:04] "GET /static/img/logo_3.png HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:14:17] "POST /list HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:14:22] "POST /list HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:14:24] "POST /list HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:14:29] "POST /list HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:14:58] "POST /order HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:15:03] "POST /order HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:15:10] "GET /operate HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:17:03] "GET /list HTTP/1.1" 200 -
+220.181.171.88 - - [13/Nov/2015 01:49:08] "GET /favicon.ico HTTP/1.1" 404 -
+220.181.171.88 - - [13/Nov/2015 02:11:38] "GET /favicon.ico HTTP/1.1" 404 -
+220.181.171.88 - - [13/Nov/2015 04:01:06] "GET /favicon.ico HTTP/1.1" 404 -
+220.181.171.88 - - [13/Nov/2015 04:20:54] "GET /favicon.ico HTTP/1.1" 404 -
+220.181.171.88 - - [13/Nov/2015 05:48:36] "GET /favicon.ico HTTP/1.1" 404 -
+220.181.171.88 - - [13/Nov/2015 07:07:49] "GET /favicon.ico HTTP/1.1" 404 -

@@ -1,0 +1,146 @@
+<script type="text/javascript">
+window.onload = function()
+{
+    $('#datepicker').datepicker().on('changeDate', function(ev){
+            $('#select-date').submit()
+            });
+
+    //设置日期从今天开始
+    var myDate = new Date();
+
+    var mytime=myDate.toLocaleTimeString();
+    str = myDate.toLocaleString();
+
+    str = str.split(" ")
+
+        str = str[0].split("/")
+        str = str[0] + '-' + str[1] + '-' + (parseInt(str[2]) + 1)
+
+        $('#datepicker').datepicker('setStartDate', str);
+};
+function updateCart()
+{
+    for (i=0; i<{{ dish_list | length}}; ++i) {
+        var x=document.getElementById("dish_" + i)
+            if (x.value == "on") {
+                document.write("<br>" + x.name + x.value);
+            }
+    }
+}
+</script>
+{% extends "base.html" %}
+{% block title %}小灶订餐系统{% endblock %}
+{% block date_picker %}
+<div id="menu-top" class="col-xs-8 col-sm-8">
+    <ul class="nav nav-pills">
+        <li class="remind hidden-xs">
+        请选择订餐日期,暂只支持午餐
+        </li>
+        <li>
+        <form class="navbar-form" id = "select-date" action={{ url_for('list') }} method="post">
+            <input id="datepicker" data-provide="datepicker" data-date-days-of-week-disabled="[0,6]" data-date-format="yyyy/mm/dd/D" data-date-autoclose="true" name="date" placeholder="请选择订餐日期" value="{{ date }}" id="inputDate">
+        </form>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div id="neeed" class="col-xs-12">
+        <form id = "order" action={{ url_for('order') }} method="post">
+            {% for day_dish_list in dish_list %}
+            <div class="row" id="result_row"> {{ day_dish_list[0][0].print_day }}
+            </div>
+            <div class="big-liste row">
+                {% for week_dish_list in day_dish_list %}
+                {% for dish in week_dish_list %}
+                <div class="prod col-xs-12 col-sm-6 product">
+                    <label class="btn btn-default">
+                        <img src={{ dish.image }}></img>
+                        <input type="checkbox" name={{ dish.id }} id="dish_{{ loop.index0 }}">
+                        <br>{{ dish.name }}  ({{ dish.print_week }})
+                    </label>
+                    <div class="price login-box">
+                        <span>
+                        ¥{{ dish.price }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <div class="control-group">
+                <div class="controls">
+                    <br>请填写您的手机号,方便为您送餐
+                    <br>
+                    <input type="hidden" name="date" value={{ date }}/>
+                    <input type="text" name="mobile" placeholder="手机号"/>
+                    <br>请选择地址(目前只支持360公司和MTK公司)
+                    <label class="radio">
+                        <input type="radio" name="address" id="optionsRadios1" value="360" checked>
+                        360 
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="address" id="optionsRadios2" value="MTK">
+                        MTK
+                    </label>
+
+                    <button type="submit" class="btn">Order</button>
+                </div>
+            </div>
+            <!--
+        <div class="navbar navbar-fixed-bottom"> 
+            <div class="navbar-inner"> 
+                <div class="container">
+                        <ul class="nav">
+                        <li>
+                        <div class="control-group">
+                            <div class="controls">
+                            <input type="hidden" name="date" value={{date}}/>
+                            <input type="text" name="mobile" placeholder="手机号"/>
+                            <button type="submit" class="btn">Order</button>
+                            </div>
+                        </div>
+                        </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+        -->
+        </form>
+    </div>
+</div>
+{% endblock %}
+<script type="text/javascript">
+var xmlhttp;
+function display_selected_dishes(url, date)
+{
+    xmlhttp=null;
+    if (window.XMLHttpRequest)
+    {// all modern browsers
+        xmlhttp=new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject)
+    {// for IE5, IE6
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    if (xmlhttp!=null)
+    {
+        xmlhttp.onreadystatechange=state_Change;
+        xmlhttp.open("GET",url,true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send("date=" + date);
+    }
+    else
+    {
+        alert("Your browser does not support XMLHTTP.");
+    }
+}
+
+</script>
+</body>
+</html>

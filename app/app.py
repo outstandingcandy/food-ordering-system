@@ -10,6 +10,8 @@ import urlparse
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.testsuite import catch_stderr
 from flask.helpers import url_for
+import smtplib
+from email.mime.text import MIMEText
 
 import sys
 reload(sys)
@@ -43,6 +45,29 @@ def get_order_info(date="", mobile=""):
         return Order.query.all()
     return Order.query.filter_by(date=date, mobile=mobile).all()
 
+def send_mail(sub, content):
+    mailto_list=["pemagic@qq.com", "248882942@qq.com", "outstandingcandy@gmail.com"]
+    mail_host="smtp.aliyun.com"
+    mail_user="xiaozao_info@aliyun.com"
+    mail_pass="www.xiaozao.info"
+    mail_postfix="aliyun.com"
+    me=mail_user+"<"+mail_user+"@"+mail_postfix+">"
+    msg = MIMEText(content, _charset='utf-8')
+    msg['Subject'] = sub
+    msg['From'] = me
+    msg['To'] = ";".join(mailto_list)
+    try:
+        s = smtplib.SMTP()
+        s.connect(mail_host)
+        s.login(mail_user,mail_pass)
+        s.sendmail(me, mailto_list, msg.as_string())
+        s.close()
+        print "success"
+        return True
+    except Exception, e:
+        print str(e)
+        return False
+
 def reconstruct_dish_list(dish_list):
     dish_dict = {}
     for dish in dish_list:
@@ -52,7 +77,6 @@ def reconstruct_dish_list(dish_list):
             dish_dict[dish.day][dish.week].append(dish)
         else:
             dish_dict[dish.day][dish.week] = [dish]
-    print dish_dict
     new_dish_list = []
     for print_day,day in Dish.day_list:
         if day in dish_dict:
@@ -64,7 +88,6 @@ def reconstruct_dish_list(dish_list):
                         dish.print_week = print_week
                     day_dish_list.append(dish_dict[day][week])
             new_dish_list.append(day_dish_list)
-    print new_dish_list
     return new_dish_list
 
 @app.route("/")
@@ -86,19 +109,41 @@ def list():
         available_dish_query = available_dish_query.filter_by(day = day, week = week)
     if category != "ALL":
         available_dish_query = available_dish_query.filter_by(category = int(category))
-    return render_template('menu.html', dish_list=reconstruct_dish_list(available_dish_query.all()), day=day, date=date, category_list=Dish.category_dict.items())
+    return render_template('menu_test.html', dish_list=reconstruct_dish_list(available_dish_query.all()), day=day, date=date, category_list=Dish.category_dict.items())
 
 @app.route("/order", methods=["get", "post"])
 def order():
     date = request.form.get('date', "")
-    dt = datetime.datetime.strptime(date, "%Y/%m/%d/%a/")
+    if not date:
+        return render_template('error.html', error_info="请选择用餐日期，谢谢")
+    try:
+        dt = datetime.datetime.strptime(date, "%Y/%m/%d/%a/")
+    except:
+        return render_template('error.html', error_info="请选择用餐日期，谢谢")
     mobile = request.form.get('mobile', "")
+    if request.form.get("address") == "360":
+        address = "360"
+    else:
+        address = "MTK"
+    if not mobile:
+        return render_template('error.html', error_info="请填写手机号，谢谢")
+    selected_dish = False
     for dish in menu.get_dish_list():
         if request.form.get(str(dish.id), ""):
-            order = Order(dt, mobile, 1, dish.id, dish.name, dish.price)
+            order = Order(dt, mobile, 1, dish.id, dish.name, dish.price, address)
             db.session.add(order)
+            selected_dish = True
+    if not selected_dish:
+        return render_template('error.html', error_info="请选择菜品，谢谢")
     db.session.commit()
-    return render_template('order.html', order_list=get_order_info(dt, mobile), date=date, mobile=mobile)
+    order_list = get_order_info(dt, mobile)
+    html = render_template('order.html', order_list=order_list, date=date, mobile=mobile, address=address)
+    mail_content = ""
+    for order in order_list:
+        mail_content += str(order)
+    print mail_content
+    send_mail("New Order is Coming", mail_content)
+    return html
 
 @app.route("/operate", methods=["get", "post"])
 def operate():

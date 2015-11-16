@@ -21,16 +21,17 @@ class Order(db.Model):
     dish_id = db.Column(db.Integer, primary_key=False)
     dish_name = db.Column(db.String, primary_key=False)
 
-    def __init__(self, date, mobile, qty, dish_id, dish_name, price):
+    def __init__(self, date, mobile, qty, dish_id, dish_name, price, address="360"):
         self.date = date
         self.mobile = mobile
         self.qty = qty
         self.dish_id = dish_id
         self.dish_name = dish_name
         self.price = price
+        self.address = address
 
     def __repr__(self):
-        pass
+        return "%s\t%s\t%s\t%s\t%d" % (self.date, self.address, self.mobile, self.dish_name, self.qty)
 
 class Dish(db.Model):
 

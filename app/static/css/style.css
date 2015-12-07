@@ -87,15 +87,27 @@ a:hover {
 
 .logotypo {
 	width: 125px;
-	height: 35px;
+	height: 70px;
 	background: transparent url(../img/logo_off.png) no-repeat;
-	margin-top: 5px;
+	margin-top: -20px;
 	margin-left: 38px;
-	background-size: 125px 35px;
+	background-size: 125px 70px;
+}
+a .logotypo:hover {
+	background: transparent url(../img/logo_off.png) no-repeat;
+	margin-top: -20px;
+	background-size: 125px 70px;
 }
 
 .remind {
     margin-top: 15px;
+}
+
+p {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+	font-size: 20px;
+	margin-top: 50px;
 }
 
 #datepicker {
@@ -103,10 +115,7 @@ a:hover {
     margin-top: 5px;
 }
 
-a .logotypo:hover {
-	background: transparent url(../img/logo_on.png) no-repeat;
-	background-size: 48px 15px;
-}
+
 
 /* open sans 700 */
 
@@ -145,7 +154,24 @@ h2 {
 }
 
 .headerfix #main {
-	padding-top: 54px;
+	padding-top: 40px;
+}
+
+.tips {
+	padding-top: 30px;
+}
+
+.shop-cartfooter-checkout {
+    display: inline-block;
+    border: 0;
+    background-color: #fdda33;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 32px;
+    font-weight: 700;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 #neeed,
@@ -1288,7 +1314,7 @@ p, a, span {
 }
 
 .alert {
-	text-align: center;
+	text-align: left;
 	margin-top: 70px;
 	margin-bottom: -80px;
 }

@@ -46,13 +46,13 @@ def get_order_info(date="", mobile=""):
     return Order.query.filter_by(date=date, mobile=mobile).all()
 
 def send_mail(sub, content):
-    mailto_list=["pemagic@qq.com", "248882942@qq.com", "outstandingcandy@gmail.com"]
-    mail_host="smtp.aliyun.com"
-    mail_user="xiaozao_info@aliyun.com"
-    mail_pass="www.xiaozao.info"
-    mail_postfix="aliyun.com"
+    mailto_list=["xiaozao_info@163.com", "pemagic@qq.com", "248882942@qq.com", "1524034534@qq.com"]
+    mail_host="smtp.163.com"
+    mail_user="xiaozao_info"
+    mail_pass="ykgpgyxoqgxullwj"
+    mail_postfix="163.com"
     me=mail_user+"<"+mail_user+"@"+mail_postfix+">"
-    msg = MIMEText(content, _charset='utf-8')
+    msg = MIMEText(content, _subtype='html', _charset='utf-8')
     msg['Subject'] = sub
     msg['From'] = me
     msg['To'] = ";".join(mailto_list)
@@ -96,20 +96,24 @@ def index():
 
 @app.route("/list", methods=["get", "post"])
 def list():
+    today = datetime.date.today()
+    deltadays = datetime.timedelta(days=1)
+    tomorrow = today + deltadays
+    tomorrow_str = tomorrow.strftime("%Y-%m-%d")
     day = request.form.get('day', "ALL")
     date = request.form.get('date', "")
     category = request.args.get('category', "ALL")
     if day == "ALL" and date:
-        day = date.split("/")[-1].upper()
-        dt = datetime.datetime.strptime(date, "%Y/%m/%d/%a")
+        dt = datetime.datetime.strptime(date, "%Y/%m/%d")
+        day = dt.strftime('%a').upper()
         week = int(dt.strftime('%W')) % 2 + 1
         print week
     available_dish_query = Dish.query
     if day != "ALL":
-        available_dish_query = available_dish_query.filter_by(day = day, week = week)
+        available_dish_query = available_dish_query.filter_by(day = day)
     if category != "ALL":
         available_dish_query = available_dish_query.filter_by(category = int(category))
-    return render_template('menu_test.html', dish_list=reconstruct_dish_list(available_dish_query.all()), day=day, date=date, category_list=Dish.category_dict.items())
+    return render_template('menu_test.html', dish_list=reconstruct_dish_list(available_dish_query.all()), day=day, date=date, category_list=Dish.category_dict.items(), start_date=tomorrow_str)
 
 @app.route("/order", methods=["get", "post"])
 def order():
@@ -117,7 +121,7 @@ def order():
     if not date:
         return render_template('error.html', error_info="请选择用餐日期，谢谢")
     try:
-        dt = datetime.datetime.strptime(date, "%Y/%m/%d/%a/")
+        dt = datetime.datetime.strptime(date, "%Y/%m/%d/")
     except:
         return render_template('error.html', error_info="请选择用餐日期，谢谢")
     mobile = request.form.get('mobile', "")
@@ -142,7 +146,7 @@ def order():
     for order in order_list:
         mail_content += str(order)
     print mail_content
-    send_mail("New Order is Coming", mail_content)
+    send_mail("有人订餐了~", html)
     return html
 
 @app.route("/operate", methods=["get", "post"])

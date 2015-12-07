@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}小灶订餐系统{% endblock %}
+{% block title %}您的订单{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
@@ -39,5 +39,13 @@
         手机号 {{ mobile }}
         </p>
     </div>
+    <div class="row">
+        <p>
+        我们已收到您的订单，会在{{ date }}日期中午11:30~12:00左右为您送达，如有疑问请致电17090314510.
+
+        感谢您选择小灶！
+        </p>
+    </div>
+
 </div>
 {% endblock %}

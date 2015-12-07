@@ -7,6 +7,7 @@
 <meta name="keywords" content="">
 <meta name="author" content="">
 <meta charset="utf-8">
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
 <link href="{{ url_for('static', filename='css/bootstrap3.min.css') }}" rel= "stylesheet" type= "text/css">
 <link href="{{ url_for('static', filename='css/bootstrap-datepicker.min.css') }}" rel= "stylesheet" type= "text/css">
 <link href="{{ url_for('static', filename='css/style.css') }}" rel= "stylesheet" type= "text/css">
@@ -33,9 +34,10 @@
                 </div>
             </div>
         </header>
+        {% block tips %}{% endblock %}
         <div id="main">
             {% block content %}{% endblock %}
         </div>
     </div>
-    </body>
+</body>
 </html>

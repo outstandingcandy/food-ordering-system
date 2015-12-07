@@ -1,23 +1,4 @@
 <script type="text/javascript">
-window.onload = function()
-{
-    $('#datepicker').datepicker().on('changeDate', function(ev){
-            $('#select-date').submit()
-            });
-
-    //设置日期从今天开始
-    var myDate = new Date();
-
-    var mytime=myDate.toLocaleTimeString();
-    str = myDate.toLocaleString();
-
-    str = str.split(" ")
-
-        str = str[0].split("/")
-        str = str[0] + '-' + str[1] + '-' + (parseInt(str[2]) + 1)
-
-        $('#datepicker').datepicker('setStartDate', str);
-};
 function updateCart()
 {
     for (i=0; i<{{ dish_list | length}}; ++i) {
@@ -38,10 +19,23 @@ function updateCart()
         </li>
         <li>
         <form class="navbar-form" id = "select-date" action={{ url_for('list') }} method="post">
-            <input id="datepicker" data-provide="datepicker" data-date-days-of-week-disabled="[0,6]" data-date-format="yyyy/mm/dd/D" data-date-autoclose="true" name="date" placeholder="请选择订餐日期" value="{{ date }}" id="inputDate">
+            <input id="datepicker" data-date-language="zh-CN" data-provide="datepicker" data-date-days-of-week-highlighted="[0,6]" data-date-start-date="{{ start_date }}" data-date-days-of-week-disabled="[0,6]" data-date-format="yyyy/mm/dd" data-date-autoclose="true" name="date" placeholder="请选择订餐日期" value="{{ date }}" id="inputDate">
         </form>
         </li>
     </ul>
+</div>
+{% endblock %}
+{% block tips %}
+<div class="container">
+<div class="alert alert-success tips" role="alert">订餐说明:
+    <br>1.老爹一个人忙不过来,所以每天只提供4个菜哦.
+    <br>2.周一的三宝菜和三白菜是老爹的拿手特色菜,一定要尝尝,尤其是冬天,补气暖胃.
+    <br>3.请在上方的日期框中选择想要点餐的日期,菜单会实时刷新,请至少提前一天点餐.
+    <br>4.选择菜品后请填写手机号再提交,目前网页还在优化中,如果想选多份,麻烦多提交几次,以后会改啦!
+    <br>5.暂时只支持午餐哦.但是很快就会提供下午茶,比如小灶首页里的蜂蜜烤猪蹄.嘿嘿~
+    <br>6.如果对菜单不满意或是有好意见,欢迎在老爹为您送餐的时候当面告诉他,他会很开心改进的!
+    <br>7.完全不用担心没有米饭,米饭是赠送的哈.
+    <br>8.感谢您选择小灶,天冷路滑请珍重加衣.</div>
 </div>
 {% endblock %}
 {% block head %}
@@ -56,12 +50,14 @@ function updateCart()
             </div>
             <div class="big-liste row">
                 {% for week_dish_list in day_dish_list %}
+                <div class="big-liste row">
                 {% for dish in week_dish_list %}
                 <div class="prod col-xs-12 col-sm-6 product">
-                    <label class="btn btn-default">
-                        <img src={{ dish.image }}></img>
+                    <label class="btn btn-default" data-toggle="tooltip" data-placement="left" title="小灶每天提供两个菜，单双周切换">
+                        <img src={{ dish.image }} class="img-responsive img-rounded"></img>
                         <input type="checkbox" name={{ dish.id }} id="dish_{{ loop.index0 }}">
-                        <br>{{ dish.name }}  ({{ dish.print_week }})
+                        <!-- <br>{{ dish.name }}  ({{ dish.print_week }}) -->
+                        <br>{{ dish.name }}
                     </label>
                     <div class="price login-box">
                         <span>
@@ -70,28 +66,26 @@ function updateCart()
                     </div>
                 </div>
                 {% endfor %}
+                </div>
                 {% endfor %}
             </div>
             {% endfor %}
-            <div class="control-group">
-                <div class="controls">
                     <br>请填写您的手机号,方便为您送餐
-                    <br>
                     <input type="hidden" name="date" value={{ date }}/>
                     <input type="text" name="mobile" placeholder="手机号"/>
+                    <br>
                     <br>请选择地址(目前只支持360公司和MTK公司)
-                    <label class="radio">
-                        <input type="radio" name="address" id="optionsRadios1" value="360" checked>
-                        360 
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="address" id="optionsRadios2" value="MTK">
-                        MTK
-                    </label>
-
-                    <button type="submit" class="btn">Order</button>
-                </div>
-            </div>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default active">
+                            <input type="radio" name="address" id="option1" value="360" checked> 360
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="address" id="option2" value="MTK"> MTK
+                        </label>
+                    </div>
+                    <button class="btn btn-default shop-cartfooter-checkout" type="submit">
+                        下单
+                    </button>
             <!--
         <div class="navbar navbar-fixed-bottom"> 
             <div class="navbar-inner"> 

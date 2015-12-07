@@ -20,6 +20,7 @@ class Order(db.Model):
     qty = db.Column(db.Integer, primary_key=False)
     dish_id = db.Column(db.Integer, primary_key=False)
     dish_name = db.Column(db.String, primary_key=False)
+    address = db.Column(db.String, primary_key=False)
 
     def __init__(self, date, mobile, qty, dish_id, dish_name, price, address="360"):
         self.date = date

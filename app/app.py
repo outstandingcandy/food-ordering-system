@@ -125,23 +125,28 @@ def order():
     except:
         return render_template('error.html', error_info="请选择用餐日期，谢谢")
     mobile = request.form.get('mobile', "")
+    if not mobile:
+        return render_template('error.html', error_info="请填写手机号，谢谢")
+    if not (mobile.startswith("1") and len(mobile) == 11):
+        return render_template('error.html', error_info="手机号码是不是填错了?")
     if request.form.get("address") == "360":
         address = "360"
     else:
         address = "MTK"
-    if not mobile:
-        return render_template('error.html', error_info="请填写手机号，谢谢")
+    remarks = request.form.get('remarks', "")
+    if not (remarks.find(">") < 0):
+        return render_template('error.html', error_info="备注内包含非法字符")
     selected_dish = False
     for dish in menu.get_dish_list():
         if request.form.get(str(dish.id), ""):
-            order = Order(dt, mobile, 1, dish.id, dish.name, dish.price, address)
+            order = Order(dt, mobile, 1, dish.id, dish.name, dish.price, address, remarks)
             db.session.add(order)
             selected_dish = True
     if not selected_dish:
         return render_template('error.html', error_info="请选择菜品，谢谢")
     db.session.commit()
     order_list = get_order_info(dt, mobile)
-    html = render_template('order.html', order_list=order_list, date=date, mobile=mobile, address=address)
+    html = render_template('order.html', order_list=order_list, date=date, mobile=mobile, address=address, remarks=remarks)
     mail_content = ""
     for order in order_list:
         mail_content += str(order)

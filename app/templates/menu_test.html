@@ -1,4 +1,10 @@
 <script type="text/javascript">
+window.onload = function()
+{
+    $('#datepicker').datepicker().on('changeDate', function(ev){
+        $('#select-date').submit()
+    });
+}
 function updateCart()
 {
     for (i=0; i<{{ dish_list | length}}; ++i) {
@@ -29,13 +35,12 @@ function updateCart()
 <div class="container">
 <div class="alert alert-success tips" role="alert">订餐说明:
     <br>1.老爹一个人忙不过来,所以每天只提供4个菜哦.
-    <br>2.周一的三宝菜和三白菜是老爹的拿手特色菜,一定要尝尝,尤其是冬天,补气暖胃.
-    <br>3.请在上方的日期框中选择想要点餐的日期,菜单会实时刷新,请至少提前一天点餐.
-    <br>4.选择菜品后请填写手机号再提交,目前网页还在优化中,如果想选多份,麻烦多提交几次,以后会改啦!
-    <br>5.暂时只支持午餐哦.但是很快就会提供下午茶,比如小灶首页里的蜂蜜烤猪蹄.嘿嘿~
-    <br>6.如果对菜单不满意或是有好意见,欢迎在老爹为您送餐的时候当面告诉他,他会很开心改进的!
-    <br>7.完全不用担心没有米饭,米饭是赠送的哈.
-    <br>8.感谢您选择小灶,天冷路滑请珍重加衣.</div>
+    <br>2.请在上方的日期框中选择想要点餐的日期,菜单会实时刷新,请至少提前一天点餐.
+    <br>3.选择菜品后请填写手机号再提交,目前网页还在优化中,如果想选多份,麻烦多提交几次,以后会改啦!
+    <br>4.暂时只支持午餐哦.但是很快就会提供下午茶,比如小灶首页里的蜂蜜烤猪蹄.嘿嘿~
+    <br>5.如果对菜单不满意或是有好意见,欢迎在老爹为您送餐的时候当面告诉他,他会很开心改进的!
+    <br>6.完全不用担心没有米饭,米饭是赠送的哈.
+    <br>7.感谢您选择小灶,天冷路滑请珍重加衣.</div>
 </div>
 {% endblock %}
 {% block head %}
@@ -83,6 +88,10 @@ function updateCart()
                             <input type="radio" name="address" id="option2" value="MTK"> MTK
                         </label>
                     </div>
+                    <br>备注
+                    <input type="text" name="remarks" placeholder="对口味有什么特殊需求？"/>
+                    <br>
+                    <br>
                     <button class="btn btn-default shop-cartfooter-checkout" type="submit">
                         下单
                     </button>
